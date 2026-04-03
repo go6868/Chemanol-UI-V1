@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/newtown');
+
+/* CM Sans Serif 2012 - for H1 headlines and main section titles (Technical/Engineering authority) */
+@font-face {
+  font-family: 'CM Sans Serif 2012';
+  src: local('CM Sans Serif 2012 Medium'),
+       local('CM Sans Serif 2012'),
+       url("./CM Sans Serif 2012 Medium.woff2") format('woff2'),
+       url("./CM Sans Serif 2012 Medium.woff") format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'CM Sans Serif 2012';
+  src: local('CM Sans Serif 2012 Medium'),
+       local('CM Sans Serif 2012'),
+       url("./CM Sans Serif 2012 Medium.woff2") format('woff2'),
+       url("./CM Sans Serif 2012 Medium.woff") format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Alias used across the app's inline styles */
+@font-face {
+  font-family: 'CM Sans Serif';
+  src: local('CM Sans Serif 2012 Medium'),
+       local('CM Sans Serif 2012'),
+       url("./CM Sans Serif 2012 Medium.woff2") format('woff2'),
+       url("./CM Sans Serif 2012 Medium.woff") format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CM Sans Serif';
+  src: local('CM Sans Serif 2012 Medium'),
+       local('CM Sans Serif 2012'),
+       url("./CM Sans Serif 2012 Medium.woff2") format('woff2'),
+       url("./CM Sans Serif 2012 Medium.woff") format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Newton Regular - for hero taglines and primary navigation */
+
+/* Source Sans 3 - body content and UI text */
+body {
+  font-family: "Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* H1 headlines and main section titles - CM Sans Serif 2012 */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "CM Sans Serif 2012", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Body/UI text styles */
+label, caption, input, textarea, select, button, input::placeholder, textarea::placeholder, .utility-text {
+  font-family: "Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Arabic-specific styling: DIN Next LT W23 */
+[dir="rtl"] {
+  font-family: "DIN Next LT W23", "Cairo", "Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6 {
+  font-family: "DIN Next LT W23", "Cairo", "CM Sans Serif 2012", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
