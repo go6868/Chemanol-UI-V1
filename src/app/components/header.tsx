@@ -117,7 +117,7 @@ export function Header() {
                     to={link.path}
                     className="group inline-flex py-2 text-[12px] uppercase transition-colors duration-300 min-[1500px]:text-[13px]"
                     style={{
-                      fontFamily: "'Source Sans 3', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                      fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
                       color: isActive(link.path)
                         ? "#2DABE2"
                         : isTransparent
@@ -188,7 +188,7 @@ export function Header() {
                 <motion.button
                   className="relative flex min-w-[136px] shrink-0 items-center justify-center overflow-hidden rounded-full border px-4 py-2 text-[12px] uppercase tracking-[0.12em] whitespace-nowrap transition-all duration-300 cursor-pointer min-[1500px]:min-w-[154px] min-[1500px]:px-5 min-[1500px]:text-[13px] min-[1500px]:tracking-wider"
                   style={{
-                    fontFamily: "'CM Sans Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
                     background: isTransparent
                       ? "rgba(255,255,255,0.08)"
                       : "#0658A5",

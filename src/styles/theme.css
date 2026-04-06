@@ -24,6 +24,7 @@
   --input: transparent;
   --input-background: #f3f3f5;
   --switch-background: #cbced4;
+  --font-weight-heading: 700;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
   --ring: oklch(0.708 0 0);
@@ -63,6 +64,7 @@
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
   --ring: oklch(0.439 0 0);
+  --font-weight-heading: 700;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
   --chart-1: oklch(0.488 0.243 264.376);
@@ -141,40 +143,40 @@
 
   h1 {
     font-size: clamp(3rem, 6vw, 5rem);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-heading);
     line-height: 1.1;
     letter-spacing: -0.01em;
   }
 
   h2 {
     font-size: clamp(2.25rem, 4vw, 3.5rem);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-heading);
     line-height: 1;
     letter-spacing: -0.01em;
   }
 
   h3 {
     font-size: clamp(2rem, 3vw, 3rem);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-heading);
     line-height: 1;
     letter-spacing: -0.005em;
   }
 
   h4 {
     font-size: clamp(1.5rem, 2vw, 2.25rem);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-heading);
     line-height: 1.35;
   }
 
   h5 {
     font-size: 1.5rem;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-heading);
     line-height: 1.45;
   }
 
   h6 {
     font-size: 1.25rem;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-heading);
     line-height: 1.45;
   }
 

@@ -39,7 +39,7 @@ function Badge({
       data-slot="badge"
       className={cn(badgeVariants({ variant }), className)}
       style={{
-        fontFamily: "'CM Sans Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+        fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
       }}
       {...props}
     />

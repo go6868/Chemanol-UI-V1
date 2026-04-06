@@ -30,7 +30,7 @@ function FooterNavLink({ to, label, isRTL }: FooterNavLinkProps) {
       style={{
         fontFamily: isRTL
           ? "'DIN Next LT W23', 'Cairo', sans-serif"
-          : "'Source Sans 3', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          : '"Helvetica Neue", Helvetica, Arial, sans-serif',
       }}
     >
       <span className="relative inline-flex w-full max-w-full pb-1">
@@ -68,7 +68,7 @@ function FooterField({
           fontSize: isActive ? "10px" : "14px",
           letterSpacing: isActive ? "0.08em" : "0.01em",
           color: isActive ? "#2DABE2" : "rgba(11, 23, 40, 0.42)",
-          fontFamily: '"Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif',
+          fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
         }}
       >
         {label}
@@ -83,7 +83,7 @@ function FooterField({
           onBlur={() => setFocused(false)}
           rows={3}
           className="block w-full resize-none rounded-[14px] bg-[#EEF2F5] px-4 pb-4 pt-7 text-[15px] text-[#0E2233] outline-none transition-all duration-300"
-          style={{ fontFamily: "'Source Sans 3', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
+          style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
         />
       ) : (
         <input
@@ -94,7 +94,7 @@ function FooterField({
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           className="h-[56px] w-full rounded-[14px] bg-[#EEF2F5] px-4 pb-3 pt-5 text-[15px] text-[#0E2233] outline-none transition-all duration-300"
-          style={{ fontFamily: "'Source Sans 3', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
+          style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
         />
       )}
 
@@ -123,11 +123,11 @@ export function Footer() {
 
   const headerFont = isRTL
     ? "'DIN Next LT W23', 'Cairo', sans-serif"
-    : "'CM Sans Serif 2012', 'Helvetica Neue', Helvetica, Arial, sans-serif";
+    : '"Helvetica Neue", Helvetica, Arial, sans-serif';
 
   const legalFont = isRTL
     ? "'DIN Next LT W23', 'Cairo', sans-serif"
-    : 'Calibri, "Segoe UI", Tahoma, sans-serif';
+    : '"Helvetica Neue", Helvetica, Arial, sans-serif';
 
   const linkGroups = [
     {

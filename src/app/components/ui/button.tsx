@@ -51,7 +51,7 @@ function Button({
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
       style={{
-        fontFamily: "'CM Sans Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+        fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
       }}
       {...props}
     />

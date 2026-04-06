@@ -387,30 +387,30 @@ export function Home() {
             <div className="grid grid-cols-1 gap-6 items-center justify-items-center min-[1380px]:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] min-[1380px]:justify-items-stretch min-[1380px]:gap-8">
               {/* LEFT SIDE: Title and Description */}
               <div className="w-full mx-auto max-w-[680px] text-center text-white min-[1380px]:mx-0 min-[1380px]:max-w-none min-[1380px]:pt-0 min-[1380px]:text-left">
-                {/* Clean Headline - CM Sans Serif 2012 */}
+                {/* Clean Headline - Helvetica Neue */}
                 <motion.h1
                   className="mb-5 sm:mb-6 tracking-tight text-white"
                   style={{ 
                     fontSize: "clamp(2.6rem, 6vw, 4.8rem)", 
                     lineHeight: 1.1,
-                    fontFamily: "'CM Sans Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
                   }}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
                 >
-                  <span className="block font-[CM_Sans_Serif_2012]">{t("home.hero.headlineLine1")}</span>
-                  <span className="block font-[CM_Sans_Serif_2012]" style={{ color: "#2DABE2" }}>{t("home.hero.headlineLine2")}</span>
-                  <span className="block font-[CM_Sans_Serif_2012]">{t("home.hero.headlineLine3")}</span>
+                  <span className="block">{t("home.hero.headlineLine1")}</span>
+                  <span className="block" style={{ color: "#2DABE2" }}>{t("home.hero.headlineLine2")}</span>
+                  <span className="block">{t("home.hero.headlineLine3")}</span>
                 </motion.h1>
 
-                {/* Subtitle - Source Sans 3 */}
+                {/* Subtitle - Helvetica Neue */}
                 <motion.p
                   className="mx-auto mb-6 w-full max-w-2xl text-base text-white/75 sm:text-lg min-[1380px]:mx-0 min-[1380px]:max-w-none"
                   style={{ 
                     letterSpacing: "0.3px", 
                     lineHeight: 1.7,
-                    fontFamily: "'Source Sans 3', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
                   }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -473,7 +473,7 @@ export function Home() {
                     <h3 
                       className="mb-2 text-[1.4rem] font-bold text-[#0658A5] sm:text-[1.5rem]"
                       style={{ 
-                        fontFamily: "'CM Sans Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                        fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
                         fontWeight: 700,
                       }}
                     >
@@ -515,7 +515,7 @@ export function Home() {
                         style={{
                           background: "#0658A5",
                           color: "white",
-                          fontFamily: "'CM Sans Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                          fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
                           fontWeight: 600,
                           boxShadow: "0 4px 12px rgba(6,88,165,0.2)",
                         }}
@@ -792,7 +792,7 @@ export function Home() {
                     <div className="min-w-0">
                       <motion.div 
                         className="mb-1 text-[1.8rem] leading-none tracking-tight text-[#0658A5] sm:mb-2 sm:text-[2.1rem] lg:text-[3rem]" 
-                        style={{ fontFamily: "'CM Sans Serif', sans-serif", fontWeight: 700 }}
+                        style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', fontWeight: 700 }}
                         initial={{ scale: 0.8, opacity: 0 }}
                         whileInView={{ scale: 1, opacity: 1 }}
                         viewport={{ once: true }}
@@ -1064,7 +1064,7 @@ export function Home() {
                       className="mb-3 text-white max-[869px]:text-center"
                       style={{
                         fontSize: "clamp(3.5rem, 6vw, 5.5rem)",
-                        fontFamily: "'CM Sans Serif 2012', 'CM Sans Serif', 'Helvetica Neue', sans-serif",
+                        fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
                         fontWeight: 700,
                         lineHeight: 1,
                       }}

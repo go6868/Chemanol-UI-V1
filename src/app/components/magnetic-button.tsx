@@ -67,7 +67,7 @@ export function MagneticButton({
       ref={buttonRef}
       className={`relative overflow-hidden px-8 py-3.5 border-2 rounded-sm transition-all duration-300 group ${baseStyles} ${className}`}
       style={{
-        fontFamily: "'CM Sans Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+        fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
         fontWeight: 600,
         letterSpacing: "0.05em",
       }}

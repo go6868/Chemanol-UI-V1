@@ -38,7 +38,7 @@ export function LanguageSwitcher() {
         className="relative z-10 whitespace-nowrap text-sm font-bold" 
         dir={language === "en" ? "rtl" : "ltr"} 
         style={{ 
-          fontFamily: language === "en" ? "'Cairo', sans-serif" : "'CM Sans Serif', sans-serif",
+          fontFamily: language === "en" ? "'Cairo', sans-serif" : '"Helvetica Neue", Helvetica, Arial, sans-serif',
           letterSpacing: language === "en" ? "0" : "0.03em"
         }}
       >
