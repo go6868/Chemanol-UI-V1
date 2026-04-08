@@ -13,7 +13,7 @@ import automobileIcon from "../../assets/Automobile.svg";
 import pharmaceuticalIcon from "../../assets/Pharmacuticle.svg";
 import chemanolBlueLogo from "../../assets/Blue Variation.png";
 import sectionBackgroundImage from "../../assets/Section BG.jpg";
-import { CardCornerCtaLink, SplitCtaLink } from "../components/split-cta";
+import { SplitCtaLink } from "../components/split-cta";
 import { SectionHeading } from "../components/section-heading";
 import { SingleButton, SingleButtonDot, SingleButtonInline } from "@/app/components/ui/single-button";
 import { getProductCardImage } from "@/app/data/product-card-images";
@@ -196,6 +196,7 @@ export function Home() {
   const mobileProductCarouselRef = useRef<HTMLDivElement>(null);
   const mobileProductTrackRef = useRef<HTMLDivElement>(null);
   const mobileTouchStartXRef = useRef<number | null>(null);
+  const mediaCarouselRef = useRef<HTMLDivElement>(null);
 
   // Animated counters for stats bar
   const counter1 = useAnimatedCounter(1300000, 2500, statsInView);
@@ -295,6 +296,14 @@ export function Home() {
     { imageSrc: getProductCardImage("specialty"), imageAlt: t("home.products.specialty.title"), title: t("home.products.specialty.title"), desc: t("home.products.specialty.description"), link: "/products#specialty" },
   ];
 
+  const mediaItems = [
+    { date: t("home.media.items.first.date"), title: t("home.media.items.first.title"), desc: t("home.media.items.first.description"), img: heroImg2 },
+    { date: t("home.media.items.second.date"), title: t("home.media.items.second.title"), desc: t("home.media.items.second.description"), img: labImg },
+    { date: t("home.media.items.third.date"), title: t("home.media.items.third.title"), desc: t("home.media.items.third.description"), img: sustainImg },
+    { date: "DECEMBER 08, 2025", title: "Chemanol Expands Export Distribution Network", desc: "New logistics partnerships are improving regional product reach and delivery speed.", img: heroImg2 },
+    { date: "NOVEMBER 26, 2025", title: "Operational Excellence Program Reaches New Milestone", desc: "Process improvements continue to strengthen reliability, safety, and plant efficiency.", img: labImg },
+  ];
+
   useEffect(() => {
     if (!isCompactHomeLayout || prefersReducedMotion) {
       return;
@@ -374,6 +383,36 @@ export function Home() {
       overwrite: true,
     });
   }, [activeMobileProductIndex, mobileProductSlideWidth, prefersReducedMotion]);
+
+  useEffect(() => {
+    const carouselElement = mediaCarouselRef.current;
+
+    if (!carouselElement) {
+      return;
+    }
+
+    const handleWheel = (event: WheelEvent) => {
+      const canScrollHorizontally = carouselElement.scrollWidth > carouselElement.clientWidth;
+
+      if (!canScrollHorizontally) {
+        return;
+      }
+
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX) && event.deltaX === 0) {
+        return;
+      }
+
+      event.preventDefault();
+      carouselElement.scrollBy({
+        left: event.deltaY !== 0 ? event.deltaY : event.deltaX,
+        behavior: "smooth",
+      });
+    };
+
+    carouselElement.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => carouselElement.removeEventListener("wheel", handleWheel);
+  }, []);
 
   return (
     <div className="overflow-x-clip bg-white">
@@ -1177,39 +1216,72 @@ export function Home() {
         {/* ═══════════════════════════════════════════════════════
             MEDIA CENTER
            ═══════════════════════════════════════════════════════ */}
-        <section className="py-14 pb-16 min-[870px]:py-20 min-[870px]:pb-24">
-          <AnimatedSection>
-            <SectionHeading
-              className="mb-10"
-              title={t("home.media.title")}
-              action={<SplitCtaLink to="/media-center" label={t("home.media.browseAll")} isRTL={isRTL} />}
-              size="lg"
-            />
-          </AnimatedSection>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { date: t("home.media.items.first.date"), title: t("home.media.items.first.title"), desc: t("home.media.items.first.description"), img: heroImg2 },
-              { date: t("home.media.items.second.date"), title: t("home.media.items.second.title"), desc: t("home.media.items.second.description"), img: labImg },
-              { date: t("home.media.items.third.date"), title: t("home.media.items.third.title"), desc: t("home.media.items.third.description"), img: sustainImg },
-            ].map((news, i) => (
-              <AnimatedSection key={i} delay={i * 0.1}>
-                <div
-                  className="group overflow-hidden rounded-[15px] bg-white transition-all duration-400 hover:-translate-y-2 hover:scale-[1.02]"
-                  style={{ boxShadow: "0px 15px 40px rgba(6, 88, 165, 0.06)" }}
+        <section className="overflow-hidden py-12 pb-14 min-[870px]:py-16 min-[870px]:pb-20">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-center lg:gap-8">
+            <AnimatedSection className="lg:pr-2">
+              <div className="flex flex-col items-start justify-center lg:min-h-[400px] lg:py-4">
+                <h2 className="text-[2rem] font-semibold tracking-tight text-[#173746] sm:text-[2.3rem]">
+                  Media Center
+                </h2>
+                <Link
+                  to="/media-center"
+                  className="group mt-8 inline-flex items-center gap-2 text-[1.02rem] text-[#173746] transition-colors duration-300 hover:text-[#0F57A4]"
                 >
-                  <div className="h-48 overflow-hidden">
-                    <ImageWithFallback src={news.img} alt={news.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  </div>
-                  <div className="flex min-h-[210px] flex-col p-6">
-                    <div className="mb-3 text-xs font-medium uppercase tracking-[0.14em] text-[#2dabe2]">{news.date}</div>
-                    <h3 className="mb-3 text-[1.05rem] font-semibold leading-7 text-neutral-900">{news.title}</h3>
-                    <p className="mb-4 line-clamp-2 text-sm leading-7 text-neutral-500">{news.desc}</p>
-                    <CardCornerCtaLink to="/media-center" label={t("home.media.readMore")} isRTL={isRTL} size="sm" className="mt-auto" />
-                  </div>
+                  <span>View all</span>
+                  <ArrowRight
+                    className={`h-5 w-5 transition-transform duration-300 ${isRTL ? "rotate-180 group-hover:translate-x-[-4px]" : "group-hover:translate-x-1"}`}
+                  />
+                </Link>
+              </div>
+            </AnimatedSection>
+
+            <AnimatedSection delay={0.08}>
+              <div
+                ref={mediaCarouselRef}
+                className="-mr-6 overflow-x-auto pb-2 pl-0 pr-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:-mr-12 sm:pr-12"
+              >
+                <div className="flex min-w-max gap-4 sm:gap-6">
+                  {mediaItems.map((news, i) => {
+                    const opacityClass = ["opacity-100", "opacity-90", "opacity-[0.72]", "opacity-[0.52]", "opacity-[0.34]"][i] ?? "opacity-[0.34]";
+
+                    return (
+                      <Link
+                        key={news.title}
+                        to="/media-center"
+                        className={`group flex h-[400px] w-[78vw] max-w-[360px] shrink-0 flex-col border border-[#D8DEE7] bg-[#ECEFF4] transition-all duration-300 hover:-translate-y-1 hover:opacity-100 sm:w-[58vw] md:w-[44vw] lg:w-[360px] ${opacityClass}`}
+                      >
+                        <div className="h-[164px] overflow-hidden border-b border-[#D8DEE7]">
+                          <ImageWithFallback
+                            src={news.img}
+                            alt={news.title}
+                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                          />
+                        </div>
+                        <div className="flex flex-1 flex-col px-5 py-5 sm:px-6 sm:py-5">
+                          <div className="mb-4 text-xs font-semibold tracking-[0.01em] text-[#24406F]">
+                            <span>{news.date}</span>
+                            <span className="mx-2 text-[#F28A30]">•</span>
+                            <span>&lt; 1min read</span>
+                          </div>
+                          <h3 className="mb-3 text-[1rem] font-medium leading-8 text-[#173746] sm:text-[1.05rem]">
+                            {news.title}
+                          </h3>
+                          <p className="line-clamp-2 text-sm leading-7 text-[#5C6773]">
+                            {news.desc}
+                          </p>
+                          <div className="mt-auto pt-6 text-[#0658A5]">
+                            <ArrowRight
+                              className={`h-9 w-9 transition-transform duration-300 ${isRTL ? "rotate-180 group-hover:translate-x-[-4px]" : "group-hover:translate-x-1"}`}
+                              strokeWidth={1.5}
+                            />
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
-              </AnimatedSection>
-            ))}
+              </div>
+            </AnimatedSection>
           </div>
         </section>
       </div>

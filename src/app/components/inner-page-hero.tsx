@@ -14,31 +14,19 @@ interface InnerPageHeroProps {
   breadcrumbs: BreadcrumbItem[];
 }
 
-export function InnerPageHero({ title, description, backgroundImage, breadcrumbs }: InnerPageHeroProps) {
+export function InnerPageHero({ title, description, backgroundImage: _backgroundImage, breadcrumbs }: InnerPageHeroProps) {
   return (
-    <section className="relative mt-[72px] h-[320px] overflow-hidden">
-      {/* Background */}
+    <section className="relative mt-[72px] overflow-hidden bg-[#0658A5]">
       <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
+        className="absolute inset-0 opacity-[0.05]"
+        style={{
+          backgroundImage: "repeating-linear-gradient(90deg, white 0px, white 1px, transparent 1px, transparent 60px)",
+        }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0658a5]/90 via-[#0658a5]/70 to-[#0658a5]/50" />
 
-      {/* Line pattern */}
-      <div className="absolute inset-0 opacity-[0.04]" style={{
-        backgroundImage: "repeating-linear-gradient(90deg, white 0px, white 1px, transparent 1px, transparent 60px)",
-      }} />
-
-      {/* Brand swoosh bottom */}
-      <div className="absolute bottom-0 left-0 right-0 z-10">
-        <svg viewBox="0 0 1440 48" fill="none" className="w-full" preserveAspectRatio="none" style={{ display: "block" }}>
-          <path d="M0,48 L0,35 Q360,0 720,20 Q1080,40 1440,10 L1440,48 Z" fill="white" />
-          <path d="M0,35 Q360,0 720,20 Q1080,40 1440,10" stroke="rgba(45,171,226,0.25)" strokeWidth="1" fill="none" />
-        </svg>
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 flex h-full max-w-[1440px] flex-col justify-center bg-[#0658A5] px-12">
+      <div className="mx-auto max-w-[1440px] px-3 sm:px-5 lg:px-8">
+        <div className="relative z-10 px-6 py-10 sm:px-8 sm:py-12 lg:px-12 lg:py-14">
+          <div className="flex min-h-[200px] flex-col justify-center">
         {/* Apple-style breadcrumbs */}
         <motion.nav
           className="flex items-center gap-1.5 mb-5"
@@ -81,6 +69,8 @@ export function InnerPageHero({ title, description, backgroundImage, breadcrumbs
         >
           {description}
         </motion.p>
+          </div>
+        </div>
       </div>
     </section>
   );
