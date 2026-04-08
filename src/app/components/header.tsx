@@ -160,7 +160,7 @@ export function Header() {
             >
               <button
                 onClick={() => navigate("/search")}
-                className="shrink-0 rounded-full p-2 transition-all duration-300 cursor-pointer"
+                className="shrink-0 rounded-lg p-2 transition-all duration-300 cursor-pointer"
                 style={{
                   color: isTransparent ? "rgba(255,255,255,0.85)" : "#0658A5",
                   background: "transparent",
@@ -186,7 +186,7 @@ export function Header() {
 
               <Link to="/contact" className="shrink-0">
                 <motion.button
-                  className="relative flex min-w-[136px] shrink-0 items-center justify-center overflow-hidden rounded-full border px-4 py-2 text-[12px] uppercase tracking-[0.12em] whitespace-nowrap transition-all duration-300 cursor-pointer min-[1500px]:min-w-[154px] min-[1500px]:px-5 min-[1500px]:text-[13px] min-[1500px]:tracking-wider"
+                  className="relative flex min-w-[136px] shrink-0 items-center justify-center overflow-hidden rounded-sm border px-4 py-2 text-[12px] uppercase tracking-[0.12em] whitespace-nowrap transition-all duration-300 cursor-pointer min-[1500px]:min-w-[154px] min-[1500px]:px-5 min-[1500px]:text-[13px] min-[1500px]:tracking-wider"
                   style={{
                     fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
                     background: isTransparent

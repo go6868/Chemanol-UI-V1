@@ -275,7 +275,7 @@ export function Footer() {
         }
       `}</style>
 
-      <div className="mx-0 rounded-none bg-[#0658A5] sm:mx-10 sm:mb-10 sm:rounded-[36px]">
+      <div className="mx-0 rounded-none bg-black sm:mx-10 sm:mb-10 sm:rounded-[36px]">
         <div className="relative overflow-hidden px-6 py-10 sm:px-[40px] sm:py-[56px] lg:px-[40px] lg:py-[56px] xl:px-[40px] xl:py-[56px]">
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04)_0%,rgba(255,255,255,0.01)_100%)]" />
           <div
@@ -291,7 +291,7 @@ export function Footer() {
 
           <div className={`relative z-10 grid grid-cols-1 gap-12 xl:grid-cols-[minmax(0,1fr)_24rem] xl:gap-10 ${isRTL ? "xl:[direction:rtl]" : ""}`}>
             <div>
-              <div className="hidden md:grid md:grid-cols-2 md:gap-x-12 md:gap-y-10 xl:grid-cols-6 xl:gap-x-10 xl:gap-y-10">
+              <div className="hidden min-[1000px]:grid min-[1000px]:grid-cols-2 min-[1000px]:gap-x-12 min-[1000px]:gap-y-10 xl:grid-cols-6 xl:gap-x-10 xl:gap-y-10">
                 {desktopLinkGroups.map((group) => (
                   <div key={group.title} className="space-y-5">
                     <h3
@@ -333,7 +333,7 @@ export function Footer() {
                 ))}
               </div>
 
-              <div className="md:hidden">
+              <div className="min-[1000px]:hidden">
                 {linkGroups.map((group) => {
                   const isOpen = Boolean(openSections[group.title]);
 
@@ -422,7 +422,7 @@ export function Footer() {
                       type="submit"
                       disabled={!isFormValid || isSubmitting}
                       aria-busy={isSubmitting}
-                      className="inline-flex w-full items-center justify-center rounded-[18px] bg-[#0658A5] px-6 py-3.5 text-sm text-white transition-all duration-300 disabled:cursor-not-allowed disabled:bg-[#0658A5]/55"
+                      className="inline-flex w-full items-center justify-center rounded-sm bg-[#0658A5] px-6 py-3.5 text-sm text-white transition-all duration-300 disabled:cursor-not-allowed disabled:bg-[#0658A5]/55"
                       style={{
                         fontFamily: headerFont,
                         transform: isFormValid ? "translate3d(0, 0, 0) scale(1)" : "translate3d(0, 0, 0) scale(0.995)",
@@ -445,7 +445,7 @@ export function Footer() {
           </div>
 
           <div className="relative z-10 mt-12 border-t border-white/10 pt-6">
-            <div className={`flex flex-col gap-5 md:flex-row md:items-center md:justify-between ${isRTL ? "md:flex-row-reverse" : ""}`}>
+            <div className={`flex flex-col gap-5 min-[1000px]:flex-row min-[1000px]:items-center min-[1000px]:justify-between ${isRTL ? "min-[1000px]:flex-row-reverse" : ""}`}>
               <p
                 className="max-w-3xl text-[15px] leading-6 text-white/52"
                 style={{ fontFamily: legalFont }}
@@ -461,7 +461,7 @@ export function Footer() {
                 </a>
               </p>
 
-              <div className={`flex items-center gap-5 ${isRTL ? "md:flex-row-reverse" : ""}`}>
+              <div className={`flex items-center gap-5 ${isRTL ? "min-[1000px]:flex-row-reverse" : ""}`}>
                 <Link
                   to="/privacy-terms"
                   className="text-[15px] text-white/52 transition-colors duration-300 hover:text-[#2DABE2]"

@@ -3,8 +3,8 @@ import { Link } from "react-router";
 import { ChevronDown, FileText, SlidersHorizontal } from "lucide-react";
 import { InnerPageHero } from "@/app/components/inner-page-hero";
 import { AnimatedSection } from "@/app/components/animated-section";
-import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
-import { CardCornerCtaLink, SplitCtaLink } from "@/app/components/split-cta";
+import { ProductCard } from "@/app/components/product-card";
+import { SplitCtaLink } from "@/app/components/split-cta";
 import { SectionHeading } from "@/app/components/section-heading";
 import {
   Carousel,
@@ -13,10 +13,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/app/components/ui/carousel";
-import constructionImage from "../../assets/Construction.jpg";
-import automobileImage from "../../assets/Automobile.jpg";
-import medicineImage from "../../assets/Medicine.jpg";
-import sectionBackgroundImage from "../../assets/Section BG.jpg";
+import { getProductCardImage } from "@/app/data/product-card-images";
 
 const heroImg = "https://images.unsplash.com/photo-1705727210721-961cc64a6895?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGVtaWNhbCUyMGxhYm9yYXRvcnklMjBibHVlJTIwbW9kZXJufGVufDF8fHx8MTc3NDg2OTc2M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
 
@@ -41,7 +38,6 @@ const products = [
   {
     id: "methanol",
     name: "Methanol",
-    image: automobileImage,
     borderHover: "hover:border-[#0658a5]/35",
     description: "High-purity methanol for fuel blending, solvent systems, and core chemical synthesis routes across demanding industrial operations.",
     industries: ["Automotive", "Pharmaceuticals", "Energy"],
@@ -50,7 +46,6 @@ const products = [
   {
     id: "aqueous-formaldehyde-solution",
     name: "Aqueous Formaldehyde Solution",
-    image: constructionImage,
     borderHover: "hover:border-[#B8BD44]/40",
     description: "Stabilized formaldehyde solution created for industrial blending, preservation systems, and downstream resin production.",
     industries: ["Construction", "Agriculture", "Paints & Coatings"],
@@ -59,7 +54,6 @@ const products = [
   {
     id: "urea-formaldehyde-concentrate",
     name: "Urea Formaldehyde Concentrate",
-    image: constructionImage,
     borderHover: "hover:border-[#B8BD44]/40",
     description: "Concentrated UF chemistry designed for board manufacturing, adhesive preparation, and high-volume processing.",
     industries: ["Construction", "Agriculture"],
@@ -68,7 +62,6 @@ const products = [
   {
     id: "hexamethylene-tetramine",
     name: "Hexamethylene Tetramine",
-    image: medicineImage,
     borderHover: "hover:border-[#A96448]/40",
     description: "Specialty intermediate supporting curing systems, pharma processing, and technical formulation programs.",
     industries: ["Pharmaceuticals", "Agriculture", "Paints & Coatings"],
@@ -77,7 +70,6 @@ const products = [
   {
     id: "formaldehyde",
     name: "Formaldehyde Products",
-    image: constructionImage,
     borderHover: "hover:border-[#B8BD44]/40",
     description: "Formaldehyde solutions engineered for resin systems, wood products, and industrial formulations that demand consistent process performance.",
     industries: ["Construction", "Paints & Coatings", "Agriculture"],
@@ -86,7 +78,6 @@ const products = [
   {
     id: "paraformaldehyde",
     name: "Paraformaldehyde",
-    image: constructionImage,
     borderHover: "hover:border-[#B3A03D]/40",
     description: "Solid formaldehyde source aimed at crop chemistry, disinfection programs, and specialty resin modification.",
     industries: ["Agriculture", "Construction", "Pharmaceuticals"],
@@ -95,7 +86,6 @@ const products = [
   {
     id: "urea-formaldehyde-powder-resin",
     name: "Urea Formaldehyde Powder Resin",
-    image: constructionImage,
     borderHover: "hover:border-[#B8BD44]/40",
     description: "Powder resin option tailored for dry blending, efficient board pressing, and controlled bond development.",
     industries: ["Construction", "Agriculture"],
@@ -104,7 +94,6 @@ const products = [
   {
     id: "melamine-formaldehyde-powder-resin",
     name: "Melamine Formaldehyde Powder Resin",
-    image: constructionImage,
     borderHover: "hover:border-[#B3A03D]/40",
     description: "Melamine-based powder resin for hardwearing surfaces, decorative boards, and performance panel systems.",
     industries: ["Construction", "Paints & Coatings"],
@@ -113,7 +102,6 @@ const products = [
   {
     id: "derivatives",
     name: "Methanol Derivatives",
-    image: sectionBackgroundImage,
     borderHover: "hover:border-[#B3A03D]/40",
     description: "A versatile derivatives portfolio including MTBE and related intermediates supporting octane performance and downstream conversion chemistry.",
     industries: ["Automotive", "Energy", "Paints & Coatings"],
@@ -122,7 +110,6 @@ const products = [
   {
     id: "melamine-urea-formaldehyde-resin",
     name: "Melamine Urea Formaldehyde Resin",
-    image: constructionImage,
     borderHover: "hover:border-[#B8BD44]/40",
     description: "Hybrid MUF resin developed for moisture resistance, quick cure, and engineered wood durability.",
     industries: ["Construction", "Agriculture"],
@@ -131,7 +118,6 @@ const products = [
   {
     id: "sulphonated-naphthalene-formaldehyde",
     name: "Sulphonated Naphthalene Formaldehyde",
-    image: constructionImage,
     borderHover: "hover:border-[#0658a5]/35",
     description: "Dispersant technology built for concrete flow control, admixture stability, and formulation consistency.",
     industries: ["Construction", "Paints & Coatings"],
@@ -140,7 +126,6 @@ const products = [
   {
     id: "dimethylamine",
     name: "Dimethylamine",
-    image: medicineImage,
     borderHover: "hover:border-[#A96448]/40",
     description: "Reactive amine feedstock serving pharmaceutical synthesis, crop chemistry, and performance additives.",
     industries: ["Pharmaceuticals", "Agriculture", "Energy"],
@@ -149,7 +134,6 @@ const products = [
   {
     id: "specialty",
     name: "Specialty Chemicals",
-    image: medicineImage,
     borderHover: "hover:border-[#A96448]/40",
     description: "Custom chemical solutions tailored for regulated environments, specialized formulations, and application-specific manufacturing requirements.",
     industries: ["Pharmaceuticals", "Agriculture", "Paints & Coatings"],
@@ -158,7 +142,6 @@ const products = [
   {
     id: "trimethylamine",
     name: "Trimethylamine",
-    image: medicineImage,
     borderHover: "hover:border-[#0658a5]/35",
     description: "Amine building block for surfactant development, process auxiliaries, and industrial specialty programs.",
     industries: ["Pharmaceuticals", "Agriculture", "Energy"],
@@ -167,7 +150,6 @@ const products = [
   {
     id: "monomethylamine",
     name: "Monomethylamine",
-    image: medicineImage,
     borderHover: "hover:border-[#A96448]/40",
     description: "Flexible intermediate supporting agrochemical, pharmaceutical, and custom formulation manufacturing lines.",
     industries: ["Pharmaceuticals", "Agriculture", "Paints & Coatings"],
@@ -232,16 +214,6 @@ export function ProductPortfolio() {
 
   const activeFilterCount = selectedIndustries.length + selectedApplications.length;
 
-  const getIndustryTagClassName = (industry: string) =>
-    selectedIndustries.includes(industry)
-      ? "border-[#7FB8E5] bg-[#EAF5FD] text-[#0F57A4]"
-      : "border-[#D2E0EA] bg-[#F5FAFD] text-[#355468]";
-
-  const getApplicationTagClassName = (application: string) =>
-    selectedApplications.includes(application)
-      ? "border-[#7FB8E5] bg-[#EAF5FD] text-[#0F57A4]"
-      : "border-[#CFE1F1] bg-[#0658a5]/[0.06] text-[#0658a5]";
-
   return (
     <div className="bg-white">
       <InnerPageHero
@@ -251,7 +223,7 @@ export function ProductPortfolio() {
         breadcrumbs={[{ label: "Products" }]}
       />
 
-      <div className="mx-auto max-w-[1440px] px-4 py-12 sm:px-8 lg:px-12">
+      <div className="mx-auto max-w-[1440px] px-3 py-12 sm:px-5 lg:px-8">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start">
           <aside className="order-1 w-full lg:w-[290px] lg:shrink-0">
             <div className="border border-[#D9E6F0] bg-[linear-gradient(180deg,#FFFFFF_0%,#F6FAFD_100%)] p-4 shadow-[0_20px_50px_rgba(6,88,165,0.06)] lg:sticky lg:top-28">
@@ -354,72 +326,23 @@ export function ProductPortfolio() {
               </AnimatedSection>
 
               {filteredProducts.length > 0 ? (
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                   {filteredProducts.map((product, i) => (
-                    <AnimatedSection key={product.id} delay={i * 0.08}>
-                      <div className={`group relative transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${product.borderHover}`}>
-                        <div
-                          className="pointer-events-none absolute inset-0 bg-[#0F57A4] opacity-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-[8px] group-hover:translate-y-[8px] group-hover:opacity-100"
+                    <div key={product.id} id={product.id} className="scroll-mt-28">
+                        <ProductCard
+                          imageSrc={getProductCardImage(product.id)}
+                          imageAlt={product.name}
+                          title={product.name}
+                          desc={product.description}
+                          industries={product.industries}
+                          applications={product.applications}
+                          link={`/products/${product.id}`}
+                          ctaLabel="View Details"
+                          delay={Math.min(i * 0.05, 0.25)}
+                          className="h-full"
+                          mode="portfolio"
                         />
-                        <div className="relative z-10 flex h-full flex-col overflow-hidden border border-[#D9E6F0] bg-white transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-x-[8px] group-hover:-translate-y-[8px]">
-                          <div className="aspect-[16/9] overflow-hidden bg-neutral-100">
-                            <ImageWithFallback
-                              src={product.image}
-                              alt={product.name}
-                              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                            />
-                          </div>
-
-                          <div className="flex flex-1 flex-col p-6">
-                            <h3 className="mb-2 text-xl text-neutral-900">{product.name}</h3>
-                            <p
-                              className="mb-5 text-sm text-neutral-600"
-                              style={{
-                                lineHeight: 1.7,
-                                display: "-webkit-box",
-                                WebkitBoxOrient: "vertical",
-                                WebkitLineClamp: 1,
-                                overflow: "hidden",
-                              }}
-                            >
-                              {product.description}
-                            </p>
-
-                            <div className="space-y-4">
-                              <div>
-                                <div className="mb-2 text-xs uppercase tracking-[0.16em] text-neutral-400">Industries</div>
-                                <div className="flex max-h-[3.25rem] flex-wrap gap-2 overflow-hidden">
-                                  {product.industries.map((industry) => (
-                                    <span
-                                      key={industry}
-                                      className={`border px-3 py-1 text-xs transition-colors duration-300 ${getIndustryTagClassName(industry)}`}
-                                    >
-                                      {industry}
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
-
-                              <div>
-                                <div className="mb-2 text-xs uppercase tracking-[0.16em] text-neutral-400">Applications</div>
-                                <div className="flex max-h-[3.25rem] flex-wrap gap-2 overflow-hidden">
-                                  {product.applications.map((application) => (
-                                    <span
-                                      key={application}
-                                      className={`border px-3 py-1 text-xs transition-colors duration-300 ${getApplicationTagClassName(application)}`}
-                                    >
-                                      {application}
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-
-                            <CardCornerCtaLink to={`/products/${product.id}`} label="View Details" size="sm" className="mt-6" />
-                          </div>
-                        </div>
-                      </div>
-                    </AnimatedSection>
+                    </div>
                   ))}
                 </div>
               ) : (

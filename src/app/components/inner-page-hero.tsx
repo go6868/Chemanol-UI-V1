@@ -16,7 +16,7 @@ interface InnerPageHeroProps {
 
 export function InnerPageHero({ title, description, backgroundImage, breadcrumbs }: InnerPageHeroProps) {
   return (
-    <section className="relative h-[320px] overflow-hidden">
+    <section className="relative mt-[72px] h-[320px] overflow-hidden">
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -38,7 +38,7 @@ export function InnerPageHero({ title, description, backgroundImage, breadcrumbs
       </div>
 
       {/* Content */}
-      <div className="relative z-10 h-full max-w-[1440px] mx-auto px-12 flex flex-col justify-center">
+      <div className="relative z-10 flex h-full max-w-[1440px] flex-col justify-center bg-[#0658A5] px-12">
         {/* Apple-style breadcrumbs */}
         <motion.nav
           className="flex items-center gap-1.5 mb-5"

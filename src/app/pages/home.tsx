@@ -1,12 +1,11 @@
-import { Link } from "react-router";
-import { Leaf, ArrowRight, FileText, Download, Search } from "lucide-react";
+import { Link, useNavigate } from "react-router";
+import { Leaf, ArrowRight, Search } from "lucide-react";
 import { useLanguage } from "../contexts/language-context";
 import { AnimatedSection } from "../components/animated-section";
 import { motion, useReducedMotion } from "motion/react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
-import { MethanolIcon, FormaldehydeIcon, DerivativesIcon, SpecialtyIcon } from "../components/product-icons";
 import { ProductCard } from "../components/product-card";
 import heroBackgroundVideo from "../../assets/integrated-loop-optimized.mp4";
 import constructionIcon from "../../assets/Contruction.svg";
@@ -16,6 +15,8 @@ import chemanolBlueLogo from "../../assets/Blue Variation.png";
 import sectionBackgroundImage from "../../assets/Section BG.jpg";
 import { CardCornerCtaLink, SplitCtaLink } from "../components/split-cta";
 import { SectionHeading } from "../components/section-heading";
+import { SingleButton, SingleButtonDot, SingleButtonInline } from "@/app/components/ui/single-button";
+import { getProductCardImage } from "@/app/data/product-card-images";
 
 const labImg = "https://images.unsplash.com/photo-1707944745891-922795a805dd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGVtaWNhbCUyMGxhYm9yYXRvcnklMjByZXNlYXJjaCUyMHNjaWVudGlzdHxlbnwxfHx8fDE3NzQ4NjA4NjV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
 const sustainImg = "https://images.unsplash.com/photo-1763451327779-6c7f7e60d151?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdXN0YWluYWJsZSUyMGVuZXJneSUyMGdyZWVuJTIwZmFjdG9yeXxlbnwxfHx8fDE3NzQ4Njg1Nzd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
@@ -28,23 +29,12 @@ type NavigatorWithConnection = Navigator & {
 };
 
 /* ── Animated Counter Hook ── */
-function useAnimatedCounter(target: number, duration: number = 2000) {
+function useAnimatedCounter(target: number, duration: number = 2000, shouldStart: boolean = false) {
   const [count, setCount] = useState(0);
-  const [started, setStarted] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting && !started) setStarted(true); },
-      { threshold: 0.5 }
-    );
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [started]);
+    if (!shouldStart) return;
 
-  useEffect(() => {
-    if (!started) return;
     const start = Date.now();
     const step = () => {
       const elapsed = Date.now() - start;
@@ -54,9 +44,9 @@ function useAnimatedCounter(target: number, duration: number = 2000) {
       if (progress < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
-  }, [started, target, duration]);
+  }, [shouldStart, target, duration]);
 
-  return { count, ref };
+  return count;
 }
 
 /* ── Thin-line stat icons ── */
@@ -85,6 +75,28 @@ function CertIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className={className}>
       <circle cx="12" cy="8" r="6" /><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12" />
+    </svg>
+  );
+}
+
+function PackageSearchIcon({ className, ...props }: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
+      <path d="M12 22V12" />
+      <path d="M20.27 18.27 22 20" />
+      <path d="M21 10.498V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.729l7 4a2 2 0 0 0 2 .001l.98-.559" />
+      <path d="M3.29 7 12 12l8.71-5" />
+      <path d="m7.5 4.27 8.997 5.148" />
+      <circle cx="18.5" cy="16.5" r="2.5" />
+    </svg>
+  );
+}
+
+function ShieldCheckIcon({ className, ...props }: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
+      <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+      <path d="m9 12 2 2 4-4" />
     </svg>
   );
 }
@@ -151,9 +163,7 @@ function CarbonLinkGrid() {
 function LiquidText({ text, className }: { text: string; className?: string }) {
   return (
     <span className={`relative inline-block ${className}`}>
-      {/* Base text (invisible, for spacing) */}
       <span className="invisible">{text}</span>
-      {/* Liquid fill layer */}
       <span
         className="absolute inset-0"
         style={{
@@ -173,18 +183,24 @@ function LiquidText({ text, className }: { text: string; className?: string }) {
 
 export function Home() {
   const { t, isRTL } = useLanguage();
+  const navigate = useNavigate();
   const prefersReducedMotion = useReducedMotion();
+  const statsIconStroke = "#111827";
   const [searchFocused, setSearchFocused] = useState(false);
   const [enableAmbientEffects, setEnableAmbientEffects] = useState(false);
   const [isCompactHomeLayout, setIsCompactHomeLayout] = useState(false);
   const [activeMobileProductIndex, setActiveMobileProductIndex] = useState(0);
   const [mobileProductSlideWidth, setMobileProductSlideWidth] = useState(0);
+  const [statsInView, setStatsInView] = useState(false);
+  const statsSectionRef = useRef<HTMLDivElement>(null);
   const mobileProductCarouselRef = useRef<HTMLDivElement>(null);
   const mobileProductTrackRef = useRef<HTMLDivElement>(null);
   const mobileTouchStartXRef = useRef<number | null>(null);
 
   // Animated counters for stats bar
-  const counter1 = useAnimatedCounter(1300000, 2500);
+  const counter1 = useAnimatedCounter(1300000, 2500, statsInView);
+  const counter2 = useAnimatedCounter(40, 1800, statsInView);
+  const counter3 = useAnimatedCounter(500, 2000, statsInView);
 
   useEffect(() => {
     const navigatorWithConnection = navigator as NavigatorWithConnection;
@@ -214,6 +230,26 @@ export function Home() {
 
     return () => mediaQuery.removeEventListener("change", updateCompactHomeLayout);
   }, []);
+
+  useEffect(() => {
+    if (!statsSectionRef.current || statsInView) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStatsInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(statsSectionRef.current);
+
+    return () => observer.disconnect();
+  }, [statsInView]);
 
   const formatCount = (n: number) => {
     if (n >= 1000000) return (n / 1000000).toFixed(1) + "M+";
@@ -253,10 +289,10 @@ export function Home() {
   ];
 
   const productCards = [
-    { IconComponent: MethanolIcon, title: t("home.products.methanol.title"), desc: t("home.products.methanol.description"), link: "/products#methanol" },
-    { IconComponent: FormaldehydeIcon, title: t("home.products.formaldehyde.title"), desc: t("home.products.formaldehyde.description"), link: "/products#formaldehyde" },
-    { IconComponent: DerivativesIcon, title: t("home.products.derivatives.title"), desc: t("home.products.derivatives.description"), link: "/products#derivatives" },
-    { IconComponent: SpecialtyIcon, title: t("home.products.specialty.title"), desc: t("home.products.specialty.description"), link: "/products#specialty" },
+    { imageSrc: getProductCardImage("methanol"), imageAlt: t("home.products.methanol.title"), title: t("home.products.methanol.title"), desc: t("home.products.methanol.description"), link: "/products#methanol" },
+    { imageSrc: getProductCardImage("formaldehyde"), imageAlt: t("home.products.formaldehyde.title"), title: t("home.products.formaldehyde.title"), desc: t("home.products.formaldehyde.description"), link: "/products#formaldehyde" },
+    { imageSrc: getProductCardImage("derivatives"), imageAlt: t("home.products.derivatives.title"), title: t("home.products.derivatives.title"), desc: t("home.products.derivatives.description"), link: "/products#derivatives" },
+    { imageSrc: getProductCardImage("specialty"), imageAlt: t("home.products.specialty.title"), title: t("home.products.specialty.title"), desc: t("home.products.specialty.description"), link: "/products#specialty" },
   ];
 
   useEffect(() => {
@@ -426,26 +462,12 @@ export function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.7, ease: "easeOut" }}
                 >
-                  <Link to="/contact">
-                    <button 
-                      className="inline-flex min-w-[148px] items-center justify-center whitespace-nowrap rounded-sm px-8 py-3 text-sm transition-all duration-300 cursor-pointer"
-                      style={{
-                        border: "2px solid rgba(255,255,255,0.3)",
-                        color: "white",
-                        background: "transparent",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = "rgba(255,255,255,0.15)";
-                        e.currentTarget.style.borderColor = "#2DABE2";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = "transparent";
-                        e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
-                      }}
-                    >
-                      {t("home.hero.learnMore")}
-                    </button>
-                  </Link>
+                  <SingleButton
+                    label={t("home.hero.learnMore")}
+                    isRTL={isRTL}
+                    className="min-w-[148px] px-8 py-3 sm:min-h-[48px] sm:px-8 sm:py-3"
+                    onClick={() => navigate("/contact")}
+                  />
                 </motion.div>
               </div>
 
@@ -509,40 +531,13 @@ export function Home() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, delay: 0.9, ease: "easeOut" }}
                   >
-                    <Link to="/products" className="w-full block">
-                      <button 
-                        className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-lg px-7 py-3.5 whitespace-nowrap transition-all duration-300 cursor-pointer"
-                        style={{
-                          background: "#0658A5",
-                          color: "white",
-                          fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-                          fontWeight: 600,
-                          boxShadow: "0 4px 12px rgba(6,88,165,0.2)",
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.background = "#2DABE2";
-                          e.currentTarget.style.transform = "translateY(-2px)";
-                          e.currentTarget.style.boxShadow = "0 8px 20px rgba(45,171,226,0.3)";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.background = "#0658A5";
-                          e.currentTarget.style.transform = "translateY(0)";
-                          e.currentTarget.style.boxShadow = "0 4px 12px rgba(6,88,165,0.2)";
-                        }}
-                      >
-                        {/* Golden Yellow pulse indicator */}
-                        <span
-                          className="w-2.5 h-2.5 rounded-full bg-[#FAC02F] shrink-0"
-                          style={{ animation: enableAmbientEffects ? "pulseGold 2s ease-in-out infinite" : "none" }}
-                        />
-                        <span className="relative flex items-center gap-2 text-sm">
-                          {t("home.hero.exploreProducts")}
-                          <ArrowRight
-                            className={`w-4 h-4 transition-transform duration-300 ${isRTL ? "rotate-180 group-hover:rotate-[135deg]" : "group-hover:-rotate-45"}`}
-                          />
-                        </span>
-                      </button>
-                    </Link>
+                    <SingleButtonDot
+                      label={t("home.hero.exploreProducts")}
+                      isRTL={isRTL}
+                      fullWidth
+                      animateDot={enableAmbientEffects}
+                      onClick={() => navigate("/products")}
+                    />
                   </motion.div>
                 </div>
               </motion.div>
@@ -560,7 +555,7 @@ export function Home() {
         
         <div className="max-w-[1400px] mx-auto px-6 sm:px-12">
           <motion.div
-            ref={counter1.ref}
+            ref={statsSectionRef}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -585,7 +580,7 @@ export function Home() {
                     >
                       <motion.path 
                         d="M3 21h18M6 21V9l3 2.5V7l3 2.5V3h6v18" 
-                        stroke="#2DABE2" 
+                        stroke={statsIconStroke}
                         strokeWidth="1.5" 
                         strokeLinecap="round" 
                         strokeLinejoin="round"
@@ -622,7 +617,7 @@ export function Home() {
                       />
                     </motion.svg>
                   ),
-                  value: formatCount(counter1.count), 
+                  value: formatCount(counter1), 
                   label: t("home.stats.production") 
                 },
                 { 
@@ -644,7 +639,7 @@ export function Home() {
                         cx="12" 
                         cy="12" 
                         r="10" 
-                        stroke="#2DABE2" 
+                        stroke={statsIconStroke}
                         strokeWidth="1.5"
                         initial={{ pathLength: 0 }}
                         animate={{ pathLength: 1 }}
@@ -652,7 +647,7 @@ export function Home() {
                       />
                       <motion.path 
                         d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" 
-                        stroke="#2DABE2" 
+                        stroke={statsIconStroke}
                         strokeWidth="1.5"
                         strokeLinecap="round"
                       />
@@ -674,7 +669,7 @@ export function Home() {
                       />
                     </motion.svg>
                   ),
-                  value: "40+", 
+                  value: `${counter2}+`, 
                   label: t("home.stats.countries") 
                 },
                 { 
@@ -688,7 +683,7 @@ export function Home() {
                         cx="9" 
                         cy="7" 
                         r="4" 
-                        stroke="#2DABE2" 
+                        stroke={statsIconStroke}
                         strokeWidth="1.5"
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
@@ -696,7 +691,7 @@ export function Home() {
                       />
                       <motion.path 
                         d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" 
-                        stroke="#2DABE2" 
+                        stroke={statsIconStroke}
                         strokeWidth="1.5" 
                         strokeLinecap="round"
                         initial={{ pathLength: 0 }}
@@ -724,7 +719,7 @@ export function Home() {
                       />
                     </motion.svg>
                   ),
-                  value: "500+", 
+                  value: `${counter3}+`, 
                   label: t("home.stats.employees") 
                 },
                 { 
@@ -738,7 +733,7 @@ export function Home() {
                         cx="12" 
                         cy="8" 
                         r="6" 
-                        stroke="#2DABE2" 
+                        stroke={statsIconStroke}
                         strokeWidth="1.5"
                         initial={{ pathLength: 0, rotate: -90 }}
                         animate={{ pathLength: 1, rotate: 0 }}
@@ -753,7 +748,7 @@ export function Home() {
                       />
                       <motion.path 
                         d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12" 
-                        stroke="#2DABE2" 
+                        stroke={statsIconStroke}
                         strokeWidth="1.5" 
                         strokeLinecap="round" 
                         strokeLinejoin="round"
@@ -769,7 +764,7 @@ export function Home() {
               ].map((stat, i) => (
                 <motion.div 
                   key={i} 
-                  className={`group flex min-h-[150px] px-4 py-6 transition-colors duration-300 hover:bg-white sm:min-h-[176px] sm:px-5 sm:py-7 lg:min-h-[260px] lg:px-10 lg:py-10 ${
+                  className={`group flex min-h-[150px] px-4 py-6 transition-colors duration-300 sm:min-h-[176px] sm:px-5 sm:py-7 lg:min-h-[260px] lg:px-10 lg:py-10 ${
                     i < 2 ? "border-b border-[#2DABE2]/14 lg:border-b-0" : ""
                   } ${
                     i === 0 || i === 2 ? "border-r border-[#2DABE2]/14" : ""
@@ -780,18 +775,18 @@ export function Home() {
                   transition={{ duration: 0.5, delay: i * 0.08 }}
                 >
                   <div className="flex w-full flex-col items-center justify-center gap-3 text-center sm:gap-4 lg:gap-7">
-                    <motion.div
-                      className="flex shrink-0 items-center justify-center text-[#2DABE2]"
+                    {/* <motion.div
+                      className="flex shrink-0 items-center justify-center text-neutral-900"
                       whileHover={{ 
                         scale: 1.05,
                       }}
                       transition={{ duration: 0.2 }}
                     >
                       {stat.icon}
-                    </motion.div>
+                    </motion.div> */}
                     <div className="min-w-0">
                       <motion.div 
-                        className="mb-1 text-[1.8rem] leading-none tracking-tight text-[#0658A5] sm:mb-2 sm:text-[2.1rem] lg:text-[3rem]" 
+                        className="mb-1 text-[2.2rem] leading-none tracking-tight text-[#0658A5] sm:mb-2 sm:text-[2.8rem] lg:text-[4rem]" 
                         style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', fontWeight: 700 }}
                         initial={{ scale: 0.8, opacity: 0 }}
                         whileInView={{ scale: 1, opacity: 1 }}
@@ -800,7 +795,7 @@ export function Home() {
                       >
                         {stat.value}
                       </motion.div>
-                      <div className="utility-text text-[0.7rem] font-bold leading-snug text-neutral-700 sm:text-[0.82rem] lg:text-base">
+                      <div className="utility-text text-[0.7rem] font-bold leading-snug text-neutral-500 sm:text-[0.82rem] lg:text-base">
                         {stat.label}
                       </div>
                     </div>
@@ -847,10 +842,12 @@ export function Home() {
               {productCards.map((product, i) => (
                 <ProductCard
                   key={i}
-                  IconComponent={product.IconComponent}
+                  imageSrc={product.imageSrc}
+                  imageAlt={product.imageAlt}
                   title={product.title}
                   desc={product.desc}
                   link={product.link}
+                  showCta={false}
                   delay={i * 0.1}
                   className={[
                     "min-h-full",
@@ -879,29 +876,23 @@ export function Home() {
                       className="shrink-0 pr-3"
                       style={{ width: mobileProductSlideWidth ? `${mobileProductSlideWidth}px` : "80%" }}
                     >
-                      <ProductCard
-                        IconComponent={product.IconComponent}
-                        title={product.title}
-                        desc={product.desc}
-                        link={product.link}
-                        delay={0}
-                        className="min-h-full"
-                        forceHovered={activeMobileProductIndex === i}
-                      />
+                    <ProductCard
+                      imageSrc={product.imageSrc}
+                      imageAlt={product.imageAlt}
+                      title={product.title}
+                      desc={product.desc}
+                      link={product.link}
+                        showCta={false}
+                      delay={0}
+                      className="min-h-full"
+                      forceHovered={activeMobileProductIndex === i}
+                    />
                     </div>
                   ))}
                 </div>
               </div>
             </div>
             <div className="pointer-events-none relative mt-2 hidden h-px w-full bg-[#D9E2EC] min-[870px]:block" />
-          </div>
-          <div className="mt-6 flex justify-center min-[870px]:hidden">
-            <SplitCtaLink
-              to="/products"
-              label={t("home.products.viewPortfolio")}
-              isRTL={isRTL}
-              labelClassName="bg-[#0F57A4] text-white"
-            />
           </div>
         </section>
 
@@ -965,11 +956,11 @@ export function Home() {
                                 }}
                               />
                             )}
-                            <span className="text-xs tracking-[0.18em] opacity-80">{industry.number}</span>
+                            <span className="text-xs tracking-[0.18em] opacity-80 transition-colors duration-300 group-hover:text-white">{industry.number}</span>
                           </div>
                           <div className="mt-auto max-w-[28rem]">
-                            <h3 className="mb-3 text-[1.7rem] leading-none sm:text-[2rem] lg:text-[2.2rem]">{industry.title}</h3>
-                            <p className="text-[0.95rem] leading-relaxed opacity-90 sm:text-base lg:text-lg">{industry.desc}</p>
+                            <h3 className="mb-3 text-[1.7rem] leading-none transition-colors duration-300 group-hover:text-white sm:text-[2rem] lg:text-[2.2rem]">{industry.title}</h3>
+                            <p className="text-[0.95rem] leading-relaxed opacity-90 transition-colors duration-300 group-hover:text-white sm:text-base lg:text-lg">{industry.desc}</p>
                           </div>
                         </div>
                       </div>
@@ -1000,25 +991,32 @@ export function Home() {
           </AnimatedSection>
           <div className="grid grid-cols-1 gap-6 min-[870px]:grid-cols-2">
             {[
-              { icon: FileText, color: "text-[#2dabe2]", title: t("home.technical.tds.title"), desc: t("home.technical.tds.description"), link: "/technical-resources#tds", cta: t("home.technical.tds.action") },
-              { icon: Download, color: "text-[#2dabe2]", title: t("home.technical.sds.title"), desc: t("home.technical.sds.description"), link: "/technical-resources#sds", cta: t("home.technical.sds.action") },
+              { icon: PackageSearchIcon, title: t("home.technical.tds.title"), desc: t("home.technical.tds.description"), link: "/technical-resources#tds", cta: t("home.technical.tds.action") },
+              { icon: ShieldCheckIcon, title: t("home.technical.sds.title"), desc: t("home.technical.sds.description"), link: "/technical-resources#sds", cta: t("home.technical.sds.action") },
             ].map((resource, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
                 <div
-                  className="group flex h-full flex-col gap-5 rounded-[15px] bg-white p-6 transition-all duration-400 hover:-translate-y-1 min-[870px]:flex-row min-[870px]:gap-6 min-[870px]:p-8"
+                  className="group flex h-full flex-col gap-5 rounded-[15px] bg-white p-6 transition-all duration-400 hover:-translate-y-1 min-[870px]:gap-6 min-[870px]:p-8"
                   style={{ boxShadow: "0px 20px 50px rgba(6, 88, 165, 0.06)" }}
                 >
                   <div className="w-14 h-14 rounded-[12px] bg-[#2dabe2]/[0.08] flex items-center justify-center shrink-0">
                     <resource.icon
-                      className={`w-7 h-7 ${resource.color}`}
-                      strokeWidth={1.5}
+                      className="w-7 h-7 text-[#2dabe2]"
                       style={{ animation: enableAmbientEffects ? "pulseBlue 3s ease-in-out infinite" : "none" }}
                     />
                   </div>
                   <div className="flex min-w-0 flex-1 flex-col">
                     <h3 className="text-lg mb-2 text-neutral-900">{resource.title}</h3>
                     <p className="text-sm text-neutral-500 mb-4">{resource.desc}</p>
-                    <CardCornerCtaLink to={resource.link} label={resource.cta} isRTL={isRTL} size="sm" />
+                    <Link to={resource.link} className="mt-auto inline-flex w-full pt-4">
+                      <SingleButtonInline
+                        label={resource.cta}
+                        isRTL={isRTL}
+                        fullWidth
+                        variant="single-button-dot"
+                        className="w-full px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-[0.18em] sm:px-6"
+                      />
+                    </Link>
                   </div>
                 </div>
               </AnimatedSection>
@@ -1071,7 +1069,7 @@ export function Home() {
                     >
                       {item.value}
                     </div>
-                    <div className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white/12 px-4 py-2 text-center text-sm text-white/80 backdrop-blur-sm">
+                    <div className="inline-flex w-full items-center justify-start gap-2 text-left text-sm text-white/80">
                       <span
                         className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#FAC02F]"
                         style={{ animation: "pulseGold 2s ease-in-out infinite" }}
@@ -1082,12 +1080,16 @@ export function Home() {
                 ))}
               </div>
               <div className="max-[869px]:flex max-[869px]:justify-center">
-                <SplitCtaLink
-                  to="/sustainability"
-                  label={t("home.sustainability.action")}
-                  isRTL={isRTL}
-                  labelClassName="bg-white text-[#0F57A4]"
-                />
+                <Link to="/sustainability">
+                  <button className="group relative overflow-hidden rounded-sm bg-[#2dabe2] px-10 py-4 text-sm font-semibold tracking-wide text-white transition-all duration-300 hover:bg-white hover:text-[#0658a5] hover:shadow-xl">
+                    <span className="relative flex items-center gap-2">
+                      Our Commitments
+                      <ArrowRight
+                        className={`h-4 w-4 transition-transform duration-300 ${isRTL ? "rotate-180 group-hover:rotate-[135deg]" : "group-hover:-rotate-45"}`}
+                      />
+                    </span>
+                  </button>
+                </Link>
               </div>
             </div>
           </AnimatedSection>
@@ -1136,7 +1138,14 @@ export function Home() {
                   </div>
 
                   <div className="mt-8">
-                    <SplitCtaLink to="/about" label={t("home.about.action")} isRTL={isRTL} size="md" />
+                    <Link to="/about" className="inline-flex">
+                      <SingleButtonInline
+                        label={t("home.about.action")}
+                        isRTL={isRTL}
+                        variant="single-button-dot"
+                        className="px-6 py-3"
+                      />
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -1193,10 +1202,10 @@ export function Home() {
                     <ImageWithFallback src={news.img} alt={news.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   </div>
                   <div className="flex min-h-[210px] flex-col p-6">
-                    <div className="text-xs text-[#2dabe2] tracking-wider mb-2">{news.date}</div>
-                    <h3 className="text-base text-neutral-900 mb-2">{news.title}</h3>
-                    <p className="text-sm text-neutral-500 mb-4">{news.desc}</p>
-                    <CardCornerCtaLink to="/media-center" label={t("home.media.readMore")} isRTL={isRTL} size="sm" />
+                    <div className="mb-3 text-xs font-medium uppercase tracking-[0.14em] text-[#2dabe2]">{news.date}</div>
+                    <h3 className="mb-3 text-[1.05rem] font-semibold leading-7 text-neutral-900">{news.title}</h3>
+                    <p className="mb-4 line-clamp-2 text-sm leading-7 text-neutral-500">{news.desc}</p>
+                    <CardCornerCtaLink to="/media-center" label={t("home.media.readMore")} isRTL={isRTL} size="sm" className="mt-auto" />
                   </div>
                 </div>
               </AnimatedSection>

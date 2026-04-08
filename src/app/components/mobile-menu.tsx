@@ -94,7 +94,7 @@ export function MobileMenu({ isOpen, onClose, navLinks, isActive }: MobileMenuPr
                 <Link
                   to="/contact"
                   onClick={onClose}
-                  className="block w-full px-6 py-3 bg-[#0658A5] text-white text-center rounded-lg hover:bg-[#2DABE2] transition-colors duration-300 font-semibold"
+                  className="block w-full px-6 py-3 bg-[#0658A5] text-white text-center rounded-sm hover:bg-[#2DABE2] transition-colors duration-300 font-semibold"
                 >
                   {t("header.cta")}
                 </Link>

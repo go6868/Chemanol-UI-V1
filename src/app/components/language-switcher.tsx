@@ -8,7 +8,7 @@ export function LanguageSwitcher() {
   return (
     <motion.button 
       onClick={toggleLanguage}
-      className="relative flex min-w-[108px] shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full px-4 py-2 transition-all duration-300 cursor-pointer"
+      className="relative flex min-w-[108px] shrink-0 items-center justify-center gap-2 overflow-hidden rounded-lg px-4 py-2 transition-all duration-300 cursor-pointer"
       style={{
         background: "#2DABE2",
         color: "white",

@@ -23,14 +23,14 @@ interface CardCtaLinkProps extends SplitCtaBaseProps {
 const sizeClasses: Record<SplitCtaSize, { container: string; label: string; iconBox: string; icon: string }> = {
   sm: {
     container: "gap-1.5",
-    label: "min-h-[36px] rounded-[12px] px-4 text-xs",
-    iconBox: "h-9 w-9 rounded-[12px]",
+    label: "min-h-[36px] rounded-sm px-4 text-xs",
+    iconBox: "h-9 w-9 rounded-sm",
     icon: "h-3.5 w-3.5",
   },
   md: {
     container: "gap-1.5",
-    label: "min-h-[48px] rounded-[14px] px-6 text-sm",
-    iconBox: "h-12 w-12 rounded-[14px]",
+    label: "min-h-[48px] rounded-sm px-6 text-sm",
+    iconBox: "h-12 w-12 rounded-sm",
     icon: "h-4 w-4",
   },
 };
@@ -43,13 +43,13 @@ const cardSizeClasses: Record<SplitCtaSize, { wrapper: string; label: string; ic
   sm: {
     wrapper: "pt-4",
     label: "text-[11px] tracking-[0.18em] leading-none",
-    iconBox: "h-10 w-10 rounded-[14px]",
+    iconBox: "h-10 w-10 rounded-sm",
     icon: "h-4.5 w-4.5",
   },
   md: {
     wrapper: "pt-5",
     label: "text-xs tracking-[0.2em] leading-none",
-    iconBox: "h-12 w-12 rounded-[16px]",
+    iconBox: "h-12 w-12 rounded-sm",
     icon: "h-5 w-5",
   },
 };
